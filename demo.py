@@ -47,7 +47,6 @@ def main():
     parser.add_argument('--eager', '--eager_show', action='store_true', dest='eager_show',
                         help='Show iamges eagerly')
 
-
     args = parser.parse_args()
     args = vars(args)
     args = {k: v for k, v in args.items() if v is not None}
@@ -57,17 +56,16 @@ def main():
     experiment_args.update(cmd=args)
     experiment = Configurable.construct_class_from_config(experiment_args)
 
-    # Demo(experiment, experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
-    Demo(experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
+    Demo(experiment, experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
 
 
 class Demo:
-    def __init__(self, args, cmd=dict()):
+    def __init__(self, experiment, args, cmd=dict()):
         self.RGB_MEAN = np.array([122.67891434, 116.66876762, 104.00698793])
         self.experiment = experiment
-        # experiment.load('evaluation', **args)
+        experiment.load('evaluation', **args)
         self.args = cmd
-        # model_saver = experiment.train.model_saver
+        model_saver = experiment.train.model_saver
         self.structure = experiment.structure
         self.model_path = self.args['resume']
 
