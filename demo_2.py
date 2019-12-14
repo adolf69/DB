@@ -74,7 +74,8 @@ class Demo:
             self.device = torch.device('cpu')
 
     def init_model(self):
-        model = torch.load(self.model_path)
+        model = structure.builder.build(self.device)
+        model.load_state_dict(self.model_path)
         return model
 
     def resume(self, model, path):
