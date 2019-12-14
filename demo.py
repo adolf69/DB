@@ -58,7 +58,7 @@ def main():
     # experiment = Configurable.construct_class_from_config(experiment_args)
 
     # Demo(experiment, experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
-    Demo(experiment, cmd=args).inference(args['image_path'], args['visualize'])
+    Demo(experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
 
 
 class Demo:
