@@ -25,10 +25,12 @@ class ImageDataset(data.Dataset, Configurable):
         self.load_all(**kwargs)
         self.data_dir = data_dir or self.data_dir
         self.data_list = data_list or self.data_list
-        if 'train' in self.data_list[0]:
-            self.is_training = True
-        else:
-            self.is_training = False
+        is_training = False
+        self.is_training = is_training
+        # if 'train' in self.data_list[0]:
+        #     self.is_training = True
+        # else:
+        #     self.is_training = False
         self.debug = cmd.get('debug', False)
         self.image_paths = []
         self.gt_paths = []
@@ -43,7 +45,8 @@ class ImageDataset(data.Dataset, Configurable):
                 image_list = fid.readlines()
             if self.is_training:
                 image_path = [self.data_dir[i] + '/train_images/' + timg.strip() for timg in image_list]
-                gt_path = [self.data_dir[i] + '/train_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
+                gt_path = [self.data_dir[i] + '/train_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in
+                           image_list]
                 # print(image_path[:10])
                 # print(gt_path[:10])
             else:
@@ -54,7 +57,8 @@ class ImageDataset(data.Dataset, Configurable):
                 else:
                     # gt_path = [self.data_dir[i] + '/test_gts/' + 'gt_' + timg.strip().split('.')[0] + '.txt' for timg in
                     #            image_list]
-                    gt_path = [self.data_dir[i] + '/test_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
+                    gt_path = [self.data_dir[i] + '/test_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in
+                               image_list]
             self.image_paths += image_path
             self.gt_paths += gt_path
         self.num_samples = len(self.image_paths)

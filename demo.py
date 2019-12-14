@@ -47,6 +47,7 @@ def main():
     parser.add_argument('--eager', '--eager_show', action='store_true', dest='eager_show',
                         help='Show iamges eagerly')
 
+
     args = parser.parse_args()
     args = vars(args)
     args = {k: v for k, v in args.items() if v is not None}
