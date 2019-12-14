@@ -55,20 +55,13 @@ def main():
     conf = Config()
     experiment_args = conf.compile(conf.load(args['exp']))['Experiment']
     experiment_args.update(cmd=args)
-    experiment = Configurable.construct_class_from_config(experiment_args)
 
-    Demo(experiment, experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
-    # Demo(experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
-
+    Demo(experiment_args, cmd=args).inference(args['image_path'], args['visualize'])
 
 class Demo:
     def __init__(self, args, cmd=dict()):
         self.RGB_MEAN = np.array([122.67891434, 116.66876762, 104.00698793])
-        self.experiment = experiment
-        # experiment.load('evaluation', **args)
         self.args = cmd
-        # model_saver = experiment.train.model_saver
-        self.structure = experiment.structure
         self.model_path = self.args['resume']
 
     def init_torch_tensor(self):
@@ -81,7 +74,7 @@ class Demo:
             self.device = torch.device('cpu')
 
     def init_model(self):
-        model = self.structure.builder.build(self.device)
+        model = torch.load(self.model_path)
         return model
 
     def resume(self, model, path):
