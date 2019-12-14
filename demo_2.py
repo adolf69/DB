@@ -7,7 +7,7 @@ import numpy as np
 from experiment import Structure, Experiment
 from concern.config import Configurable, Config
 import math
-
+from structure.model import SegDetectorModel
 
 def demo_visualize(image_path, output):
     boxes, _ = output
@@ -74,7 +74,7 @@ class Demo:
             self.device = torch.device('cpu')
 
     def init_model(self):
-        model = structure.builder.build(self.device)
+        model = SegDetectorModel(self.args, device=self.device)
         model.load_state_dict(self.model_path)
         return model
 
