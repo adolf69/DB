@@ -70,7 +70,7 @@ class ImageDataset(data.Dataset, Configurable):
                 if label == '1':
                     label = '###'
                 line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in parts]
-                print(self.data_dir[0])
+                # print(self.data_dir[0])
                 if 'icdar' in self.data_dir[0] or 'ocr_data' in self.data_dir[0]:
                     poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
                 else:
