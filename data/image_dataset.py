@@ -9,6 +9,7 @@ import glob
 from concern.config import Configurable, State
 import math
 
+
 class ImageDataset(data.Dataset, Configurable):
     r'''Dataset reading from images.
     Args:
@@ -20,6 +21,7 @@ class ImageDataset(data.Dataset, Configurable):
     processes = State(default=[])
 
     def __init__(self, data_dir=None, data_list=None, cmd={}, **kwargs):
+        print("==1231==")
         self.load_all(**kwargs)
         self.data_dir = data_dir or self.data_dir
         self.data_list = data_list or self.data_list
@@ -30,22 +32,29 @@ class ImageDataset(data.Dataset, Configurable):
         self.debug = cmd.get('debug', False)
         self.image_paths = []
         self.gt_paths = []
-        self.get_all_samples()
+        print("=======", self.is_training, self.data_list[0])
+        if self.is_training:
+            self.get_all_samples()
 
     def get_all_samples(self):
+        print("self.data_dir:", self.data_dir)
         for i in range(len(self.data_dir)):
             with open(self.data_list[i], 'r') as fid:
                 image_list = fid.readlines()
             if self.is_training:
-                image_path=[self.data_dir[i]+'/train_images/'+timg.strip() for timg in image_list]
-                gt_path=[self.data_dir[i]+'/train_gts/'+timg.strip()+'.txt' for timg in image_list]
+                image_path = [self.data_dir[i] + '/train_images/' + timg.strip() for timg in image_list]
+                gt_path = [self.data_dir[i] + '/train_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
+                # print(image_path[:10])
+                # print(gt_path[:10])
             else:
-                image_path=[self.data_dir[i]+'/test_images/'+timg.strip() for timg in image_list]
+                image_path = [self.data_dir[i] + '/test_images/' + timg.strip() for timg in image_list]
                 print(self.data_dir[i])
                 if 'TD500' in self.data_list[i] or 'total_text' in self.data_list[i]:
-                    gt_path=[self.data_dir[i]+'/test_gts/'+timg.strip()+'.txt' for timg in image_list]
+                    gt_path = [self.data_dir[i] + '/test_gts/' + timg.strip() + '.txt' for timg in image_list]
                 else:
-                    gt_path=[self.data_dir[i]+'/test_gts/'+'gt_'+timg.strip().split('.')[0]+'.txt' for timg in image_list]
+                    # gt_path = [self.data_dir[i] + '/test_gts/' + 'gt_' + timg.strip().split('.')[0] + '.txt' for timg in
+                    #            image_list]
+                    gt_path = [self.data_dir[i] + '/test_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
             self.image_paths += image_path
             self.gt_paths += gt_path
         self.num_samples = len(self.image_paths)
@@ -65,7 +74,8 @@ class ImageDataset(data.Dataset, Configurable):
                 if label == '1':
                     label = '###'
                 line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in parts]
-                if 'icdar' in self.data_dir[0]:
+                # print(self.data_dir[0])
+                if 'icdar' in self.data_dir[0] or 'ocr_data' in self.data_dir[0]:
                     poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
                 else:
                     num_points = math.floor((len(line) - 1) / 2) * 2
