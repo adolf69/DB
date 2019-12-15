@@ -184,7 +184,7 @@ class Demo:
         batch['shape'] = []
         for img, crop_shape in crop_imgs[0]:
             print(img, img.size())
-            batch['shape'].append(crop_shape.numpy())
+            batch['shape'].append(list(crop_shape))
             batch['image'].append(img.numpy())
         # batch['shape'] = [original_shape]
         # batch['image'] = img
