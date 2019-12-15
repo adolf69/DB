@@ -55,6 +55,10 @@ class MultiStepLR(Configurable):
         self.lr = cmd.get('lr', self.lr)
 
     def get_learning_rate(self, epoch, step):
+        print(self.lr)
+        print(self.gamma)
+        print(self.milestones)
+        print(epoch)
         return self.lr * self.gamma ** bisect_right(self.milestones, epoch)
 
 
