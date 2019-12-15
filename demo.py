@@ -180,8 +180,8 @@ class Demo:
         img, original_shape = self.load_image(image_path)
         crop_imgs = self.pre_process(img)
         batch['image'] = []
-        for key, img in crop_imgs:
-            batch['shape'].append(img.shape)
+        for key, img in crop_imgs.items():
+            batch['shape'].append(img.shape[:2])
             batch['image'].append(img)
         # batch['shape'] = [original_shape]
         # batch['image'] = img
@@ -192,6 +192,7 @@ class Demo:
 
             pred = model.forward(batch, training=False)
             output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
+            print(output.shape)
             # pdb.set_trace()
             if not os.path.isdir(self.args['result_dir']):
                 os.mkdir(self.args['result_dir'])
