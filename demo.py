@@ -169,6 +169,7 @@ class Demo:
                                          (child_height * i, child_width * j)))
             outputs[n] = child_images
         return outputs
+
     def inference(self, image_path, visualize=False):
         self.init_torch_tensor()
         model = self.init_model()
@@ -183,14 +184,15 @@ class Demo:
         batch['shape'] = []
         for img, crop_shape in crop_imgs[0]:
             print(img, img.size())
-            batch['shape'].append(crop_shape)
-            batch['image'].append(img)
+            batch['shape'].append(crop_shape.numpy())
+            batch['image'].append(img.numpy())
         # batch['shape'] = [original_shape]
         # batch['image'] = img
-        batch['image'] = torch.tensor(batch['image'])
-        batch['shape'] = torch.tensor(batch['shape'])
-        #print(batch['shape'])
-        #print(batch['image'], batch['image'].shape)
+
+        batch['image'] = torch.Tensor(batch['image'])
+        batch['shape'] = torch.Tensor(batch['shape'])
+        # print(batch['shape'])
+        # print(batch['image'], batch['image'].shape)
         with torch.no_grad():
 
             pred = model.forward(batch, training=False)
