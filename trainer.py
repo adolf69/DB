@@ -24,6 +24,8 @@ class Trainer:
         self.total = 0
 
     def init_device(self):
+        print('=' * 50)
+        print(torch.cuda.is_available())
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
         else:
@@ -69,13 +71,13 @@ class Trainer:
             self.logger.epoch(epoch)
             self.total = len(train_data_loader)
 
-            for batch in train_data_loader:
+            for batch in list(train_data_loader):
                 self.update_learning_rate(optimizer, epoch, self.steps)
                 # print("===cur lr====", self.current_lr)
                 self.logger.report_time("Data loading")
 
-                if self.experiment.validation and\
-                        self.steps % self.experiment.validation.interval == 0 and\
+                if self.experiment.validation and \
+                        self.steps % self.experiment.validation.interval == 0 and \
                         self.steps > self.experiment.validation.exempt:
                     self.validate(validation_loaders, model, epoch, self.steps)
                 self.logger.report_time('Validating ')
@@ -127,7 +129,8 @@ class Trainer:
         if step % self.experiment.logger.log_interval == 0:
             if isinstance(l, dict):
                 line = '\t'.join(line)
-                log_info = '\t'.join(['step:{:6d}', 'epoch:{:3d}', '{}', 'lr:{:.4f}']).format(step, epoch, line, self.current_lr)
+                log_info = '\t'.join(['step:{:6d}', 'epoch:{:3d}', '{}', 'lr:{:.4f}']).format(step, epoch, line,
+                                                                                              self.current_lr)
                 self.logger.info(log_info)
             else:
                 self.logger.info('step: %6d, epoch: %3d, loss: %.6f, lr: %f' % (

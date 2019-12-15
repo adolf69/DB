@@ -17,11 +17,11 @@ from flask import Flask, request, render_template, abort
 def log_important_msg(msg, *, padding=3):
     msg_len = len(msg)
     width = msg_len + padding * 2 + 2
-    print('#' * width)
-    print('#' + ' ' * (width - 2) + '#')
-    print('#' + ' ' * padding + msg + ' ' * padding + '#')
-    print('#' + ' ' * (width - 2) + '#')
-    print('#' * width)
+    # print('#' * width)
+    # print('#' + ' ' * (width - 2) + '#')
+    # print('#' + ' ' * padding + msg + ' ' * padding + '#')
+    # print('#' + ' ' * (width - 2) + '#')
+    # print('#' * width)
 
 
 def hint_url(url, port):

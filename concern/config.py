@@ -133,11 +133,11 @@ class Configurable(metaclass=StateMeta):
     def extract_class_from_args(args):
         cls = args.copy().pop('class')
         package, cls = cls.rsplit('.', 1)
-        print(package, cls)
+        # print(package, cls)
         module = importlib.import_module(package)
-        print(module)
+        # print(module)
         cls = getattr(module, cls)
-        print(cls)
+        # print(cls)
         return cls
 
     def load_all(self, **kwargs):
