@@ -46,7 +46,7 @@ class PriorityLearningRate(Configurable):
 
 
 class MultiStepLR(Configurable):
-    lr = State()
+    lr = State(default=0.0005)
     milestones = State(default=[2,4,6,12,20])  # milestones must be sorted
     gamma = State(default=0.5)
 
