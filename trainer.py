@@ -71,7 +71,7 @@ class Trainer:
 
             for batch in train_data_loader:
                 self.update_learning_rate(optimizer, epoch, self.steps)
-                print("===cur lr====", self.current_lr)
+                # print("===cur lr====", self.current_lr)
                 self.logger.report_time("Data loading")
 
                 if self.experiment.validation and\

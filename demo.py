@@ -164,6 +164,8 @@ class Demo:
             child_images = []
             for i in range(h_num):
                 for j in range(w_num):
+                    print('*' * 50)
+                    print(i, j)
                     child_images.append((src_img[child_height * i: child_height * (i + 1) + extra_height,
                                          child_width * j: child_width * (j + 1) + extra_width, :],
                                          (child_height * i, child_width * j)))
@@ -179,26 +181,33 @@ class Demo:
         batch = dict()
         batch['filename'] = [image_path]
         img, original_shape = self.load_image(image_path)
-        crop_imgs = self.pre_process(img)
-        batch['image'] = []
-        batch['shape'] = []
-        for img, crop_shape in crop_imgs[0]:
-            print(img, img.size())
-            batch['shape'].append(list(crop_shape))
-            batch['image'].append(img.numpy())
-        # batch['shape'] = [original_shape]
-        # batch['image'] = img
+        # crop_imgs = self.pre_process(img)
+        # batch['image'] = []
+        # batch['shape'] = []
+        # for img, crop_shape in crop_imgs[0]:
+        #     # print('+' * 50)
+        #     # print(img, img.size())
+        #     batch['shape'].append(list(crop_shape))
+        #     batch['image'].append(img.numpy())
+        batch['shape'] = [original_shape]
+        batch['image'] = img
 
-        batch['image'] = torch.Tensor(batch['image'])
-        batch['shape'] = torch.Tensor(batch['shape'])
+        # batch['image'] = torch.Tensor(batch['image'])
+        # batch['shape'] = torch.Tensor(batch['shape'])
         # print(batch['shape'])
         # print(batch['image'], batch['image'].shape)
         with torch.no_grad():
+            # print('=' * 50)
+            # print(batch['image'].size())
 
             pred = model.forward(batch, training=False)
             output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
-            print(output.size())
+            # print(output)
+            # print(len(output))
+            # print([one_output.size() for one_output in output[0]])
             # pdb.set_trace()
+            # import sys
+            # sys.exit(1)
             if not os.path.isdir(self.args['result_dir']):
                 os.mkdir(self.args['result_dir'])
             self.format_output(batch, output)

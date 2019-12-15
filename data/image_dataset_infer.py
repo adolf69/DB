@@ -56,10 +56,10 @@ class ImageDatasetInfer(data.Dataset, Configurable):
                                image_list]
             self.image_paths += image_path
             self.gt_paths += gt_path
-        self.num_samples = len(self.image_paths)
-        self.targets = self.load_ann()
-        if self.is_training:
-            assert len(self.image_paths) == len(self.targets)
+        # self.num_samples = len(self.image_paths)
+        # self.targets = self.load_ann()
+        # if self.is_training:
+        #     assert len(self.image_paths) == len(self.targets)
 
     def load_ann(self):
         res = []
