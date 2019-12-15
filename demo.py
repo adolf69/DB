@@ -180,19 +180,22 @@ class Demo:
         img, original_shape = self.load_image(image_path)
         crop_imgs = self.pre_process(img)
         batch['image'] = []
-        for key, img in crop_imgs.items():
-            batch['shape'].append(img.shape[:2])
+        batch['shape'] = []
+        for img, crop_shape in crop_imgs[0]:
+            print(img, img.size())
+            batch['shape'].append(crop_shape)
             batch['image'].append(img)
         # batch['shape'] = [original_shape]
         # batch['image'] = img
         batch['image'] = torch.tensor(batch['image'])
-        print(batch['shape'])
-        print(batch['image'], batch['image'].shape)
+        batch['shape'] = torch.tensor(batch['shape'])
+        #print(batch['shape'])
+        #print(batch['image'], batch['image'].shape)
         with torch.no_grad():
 
             pred = model.forward(batch, training=False)
             output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
-            print(output.shape)
+            print(output.size())
             # pdb.set_trace()
             if not os.path.isdir(self.args['result_dir']):
                 os.mkdir(self.args['result_dir'])
