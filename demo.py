@@ -138,6 +138,37 @@ class Demo:
                         result = ",".join([str(int(x)) for x in box])
                         res.write(result + ',' + str(score) + "\n")
 
+    def pre_process(self, inputs, scale=1024, ratio=0.05):
+        outputs = {}
+        for n, src_img in enumerate(inputs):
+            height, width = src_img.shape[:2]
+            h_num = height / scale
+            if h_num - int(h_num) < 0.2:
+                h_num = max(int(h_num), 1)
+            else:
+                h_num = int(h_num) + 1
+            if h_num == 1:
+                outputs[n] = [(src_img, (0, 0))]
+                continue
+            w_num = width / scale
+            if w_num - int(w_num) < 0.2:
+                w_num = max(int(w_num), 1)
+            else:
+                w_num = int(w_num) + 1
+
+            child_height = height // h_num + 1
+            child_width = width // w_num + 1
+            extra_height = int(child_height * ratio)
+            extra_width = int(child_width * ratio)
+
+            child_images = []
+            for i in range(h_num):
+                for j in range(w_num):
+                    child_images.append((src_img[child_height * i: child_height * (i + 1) + extra_height,
+                                         child_width * j: child_width * (j + 1) + extra_width, :],
+                                         (child_height * i, child_width * j)))
+            outputs[n] = child_images
+        return outputs
     def inference(self, image_path, visualize=False):
         self.init_torch_tensor()
         model = self.init_model()
@@ -148,9 +179,14 @@ class Demo:
         batch['filename'] = [image_path]
         img, original_shape = self.load_image(image_path)
         batch['shape'] = [original_shape]
-        import pdb
+        # crop_imgs = self.pre_process(img)
+        # for img in crop_imgs:
+        #     batch['shape'].append(img.shape)
+        batch['image'] = img
+        print(batch['shape'])
+        print(batch['image'])
         with torch.no_grad():
-            batch['image'] = img
+
             pred = model.forward(batch, training=False)
             output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
             # pdb.set_trace()
