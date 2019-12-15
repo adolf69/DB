@@ -71,7 +71,7 @@ class Trainer:
             self.logger.epoch(epoch)
             self.total = len(train_data_loader)
 
-            for batch in list(train_data_loader):
+            for batch in train_data_loader:
                 self.update_learning_rate(optimizer, epoch, self.steps)
                 # print("===cur lr====", self.current_lr)
                 self.logger.report_time("Data loading")
