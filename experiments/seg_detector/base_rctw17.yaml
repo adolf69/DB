@@ -8,7 +8,7 @@ define:
     data_dir:
         - '/home/shizai/datadisk2/ocr_data/train/'
     data_list:
-        - '/home/shizai/datadisk2/ocr_data/train/train_list_small.txt'
+        - '/home/shizai/datadisk2/ocr_data/train/train_list.txt'
     processes:
         - class: AugmentDetectionData
           augmenter_args:
@@ -32,7 +32,7 @@ define:
     data_dir:
         - '/home/shizai/datadisk2/ocr_data/test/'
     data_list:
-        - '/home/shizai/datadisk2/ocr_data/test/test_list_small.txt'
+        - '/home/shizai/datadisk2/ocr_data/test/test_list.txt'
     processes:
         - class: AugmentDetectionData
           augmenter_args:
