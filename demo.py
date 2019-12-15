@@ -178,13 +178,16 @@ class Demo:
         batch = dict()
         batch['filename'] = [image_path]
         img, original_shape = self.load_image(image_path)
-        batch['shape'] = [original_shape]
-        # crop_imgs = self.pre_process(img)
-        # for img in crop_imgs:
-        #     batch['shape'].append(img.shape)
-        batch['image'] = img
+        crop_imgs = self.pre_process(img)
+        batch['image'] = []
+        for key, img in crop_imgs:
+            batch['shape'].append(img.shape)
+            batch['image'].append(img)
+        # batch['shape'] = [original_shape]
+        # batch['image'] = img
+        batch['image'] = torch.tensor(batch['image'])
         print(batch['shape'])
-        print(batch['image'])
+        print(batch['image'], batch['image'].shape)
         with torch.no_grad():
 
             pred = model.forward(batch, training=False)
