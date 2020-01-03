@@ -19,7 +19,7 @@ def demo_visualize(image_path, output):
 
     for box in boxes:
         box = np.array(box).astype(np.int32).reshape(-1, 2)
-        cv2.polylines(pred_canvas, [box], True, (0, 255, 0), 2)
+        cv2.polylines(pred_canvas, [box], True, (0, 0, 255), 1)
 
     return pred_canvas
 
@@ -92,21 +92,35 @@ class Demo:
         model.load_state_dict(states, strict=False)
         print("Resumed from " + path)
 
-    def resize_image(self, img):
+    def resize_image(self, img, is_resize=True):
         height, width, _ = img.shape
-        if height < width:
-            new_height = self.args['image_short_side']
-            new_width = int(math.ceil(new_height / height * width / 32) * 32)
+        if is_resize:
+            if height < width:
+                new_height = self.args['image_short_side']
+                new_width = int(math.ceil(new_height / height * width / 32) * 32)
+            else:
+                new_width = self.args['image_short_side']
+                new_height = int(math.ceil(new_width / width * height / 32) * 32)
+            resized_img = cv2.resize(img, (new_width, new_height))
         else:
-            new_width = self.args['image_short_side']
-            new_height = int(math.ceil(new_width / width * height / 32) * 32)
-        resized_img = cv2.resize(img, (new_width, new_height))
+            if height < width:
+                scale = int(height / 32)
+                new_image_short_side = scale * 32
+                new_height = new_image_short_side
+                new_width = int(math.ceil(new_height / height * width / 32) * 32)
+            else:
+                scale = int(width / 32)
+                new_image_short_side = scale * 32
+                new_width = new_image_short_side
+                new_height = int(math.ceil(new_width / width * height / 32) * 32)
+            resized_img = cv2.resize(img, (new_width, new_height))
+            print(new_height, new_width)
         return resized_img
 
     def load_image(self, image_path):
         img = cv2.imread(image_path, cv2.IMREAD_COLOR).astype('float32')
         original_shape = img.shape[:2]
-        img = self.resize_image(img)
+        img = self.resize_image(img, is_resize=True)
         img -= self.RGB_MEAN
         img /= 255.
         img = torch.from_numpy(img).permute(2, 0, 1).float().unsqueeze(0)
@@ -181,6 +195,7 @@ class Demo:
         batch = dict()
         batch['filename'] = [image_path]
         img, original_shape = self.load_image(image_path)
+        print('111', original_shape)
         # crop_imgs = self.pre_process(img)
         # batch['image'] = []
         # batch['shape'] = []
@@ -200,10 +215,17 @@ class Demo:
             # print('=' * 50)
             # print(batch['image'].size())
 
+            # print('+'*50)
+            # print(batch['image'].shape)
             pred = model.forward(batch, training=False)
+            # print('1'*50)
+            # print(pred)
+            # print(pred.shape())
             output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
+
             # print(output)
-            # print(len(output))
+            # print('='*50)
+            # print(output[0][0].size())
             # print([one_output.size() for one_output in output[0]])
             # pdb.set_trace()
             # import sys

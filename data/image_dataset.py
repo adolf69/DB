@@ -38,8 +38,9 @@ class ImageDataset(data.Dataset, Configurable):
             with open(self.data_list[i], 'r') as fid:
                 image_list = fid.readlines()
             if self.is_training:
-                image_path = [self.data_dir[i] + '/train_images/' + timg.strip() for timg in image_list]
-                gt_path = [self.data_dir[i] + '/train_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
+                image_path = [self.data_dir[i] + '/img/' + timg.strip() for timg in image_list]
+                gt_path = [self.data_dir[i] + '/gt/' + timg.strip().replace(".png", "").replace(".jpg", "") + '.txt' for
+                           timg in image_list]
                 # print(image_path[:10])
                 # print(gt_path[:10])
             else:
@@ -50,7 +51,10 @@ class ImageDataset(data.Dataset, Configurable):
                 else:
                     # gt_path = [self.data_dir[i] + '/test_gts/' + 'gt_' + timg.strip().split('.')[0] + '.txt' for timg in
                     #            image_list]
-                    gt_path = [self.data_dir[i] + '/test_gts/' + timg.strip().replace(".jpg", "") + '.txt' for timg in image_list]
+                    gt_path = [
+                        self.data_dir[i] + '/test_gts/' + timg.strip().replace(".png", "").replace(".jpg", "") + '.txt'
+                        for timg in
+                        image_list]
             self.image_paths += image_path
             self.gt_paths += gt_path
         self.num_samples = len(self.image_paths)
@@ -71,7 +75,7 @@ class ImageDataset(data.Dataset, Configurable):
                     label = '###'
                 line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in parts]
                 # print(self.data_dir[0])
-                if 'icdar' in self.data_dir[0] or 'ocr_data' in self.data_dir[0]:
+                if 'icdar' in self.data_dir[0] or 'miao' in self.data_dir[0] or 'ocr_data' in self.data_dir[0]:
                     poly = np.array(list(map(float, line[:8]))).reshape((-1, 2)).tolist()
                 else:
                     num_points = math.floor((len(line) - 1) / 2) * 2
