@@ -6,9 +6,9 @@ define:
   - name: train_data
     class: ImageDataset
     data_dir:
-        - '/home/shizai/datadisk2/ocr_data/water_meter'
+        - '/home/shizai/datadisk2/ocr_data/test/'
     data_list:
-        - '/home/shizai/datadisk2/ocr_data/water_meter/train_list.txt'
+        - '/home/shizai/datadisk2/ocr_data/test/test_list.txt'
     processes:
         - class: AugmentDetectionData
           augmenter_args:

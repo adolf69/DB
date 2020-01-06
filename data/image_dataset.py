@@ -72,7 +72,7 @@ class ImageDataset(data.Dataset, Configurable):
                 parts = line.strip().split(',')
                 label = parts[-1]
                 if label == '1':
-                    label = '###'
+                    label = 'text'
                 line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in parts]
                 # print(self.data_dir[0])
                 if 'icdar' in self.data_dir[0] or 'miao' in self.data_dir[0] or 'ocr_data' in self.data_dir[0]:
@@ -86,20 +86,57 @@ class ImageDataset(data.Dataset, Configurable):
             res.append(lines)
         return res
 
+    def target_transform(self, target=None, scale=1):
+        poly = target[0]['poly']
+
+        poly_2 = np.array(poly)
+        poly_2 = poly_2 / scale
+
+        new_ = dict()
+        new_['poly'] = poly_2.tolist()
+        new_['text'] = target[0]['text']
+
+        target = list()
+        target.append(new_)
+
+        return target
+
     def __getitem__(self, index, retry=0):
         if index >= self.num_samples:
             index = index % self.num_samples
         data = {}
         image_path = self.image_paths[index]
         img = cv2.imread(image_path, cv2.IMREAD_COLOR).astype('float32')
+
         if self.is_training:
             data['filename'] = image_path
             data['data_id'] = image_path
         else:
             data['filename'] = image_path.split('/')[-1]
             data['data_id'] = image_path.split('/')[-1]
-        data['image'] = img
+
         target = self.targets[index]
+
+        # print('+' * 100)
+        # print(target)
+
+        import random
+        random_num = random.random()
+        if random_num < 0.25:
+            img = cv2.resize(img, None, fx=0.125, fy=0.125, interpolation=cv2.INTER_CUBIC)
+            target = self.target_transform(target, scale=8)
+        elif random_num < 0.5:
+            img = cv2.resize(img, None, fx=0.25, fy=0.25, interpolation=cv2.INTER_CUBIC)
+            target = self.target_transform(target, scale=4)
+        elif random_num < 0.75:
+            img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)
+            target = self.target_transform(target, scale=2)
+        else:
+            img = img
+
+        data['image'] = img
+        # print('=' * 100)
+        # print(target)
         data['lines'] = target
         if self.processes is not None:
             for data_process in self.processes:
