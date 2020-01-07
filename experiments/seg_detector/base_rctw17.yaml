@@ -6,7 +6,7 @@ define:
   - name: train_data
     class: ImageDataset
     data_dir:
-        - '/home/bizer/ocr_data/documentatio/'
+        - '/home/bizer/ocr_data/documentation'
     data_list:
         - '/home/bizer/ocr_data/documentatio/train_list.txt'
     processes:
