@@ -9,7 +9,7 @@ import numpy as np
 from concern.config import Config, Configurable
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "5"
+os.environ['CUDA_VISIBLE_DEVICES'] = "4"
 
 params = {
     'exp': 'experiments/seg_detector/rctw17_resnet50_deform_thre.yaml',

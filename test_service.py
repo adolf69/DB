@@ -56,6 +56,7 @@ if __name__ == '__main__':
     import time
 
     s1 = time.time()
+# while True:
     for i in range(1, 7):
         file_path = "/datadisk4/xinyi/water_meter/whole_images/whole{}.jpg".format(i)
         res = one_image(file_path)['result']['0']

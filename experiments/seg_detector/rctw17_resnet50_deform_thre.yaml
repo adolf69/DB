@@ -43,10 +43,10 @@ define:
             signal_path: save
         scheduler: 
             class: OptimizerScheduler
-            optimizer: "SGD"
+            optimizer: "Adam"  # "SGD"
             optimizer_args:
                 lr: 0.007
-                momentum: 0.9
+                # momentum: 0.9
                 weight_decay: 0.0001
             learning_rate:  
                 class: MultiStepLR
@@ -71,6 +71,6 @@ define:
         class: Logger
         verbose: true
         level: info
-        log_interval: 450
+        log_interval: 150
 
     evaluation: *validate

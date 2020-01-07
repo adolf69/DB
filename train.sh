@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-export CUDA_VISIBLE_DEVICES=6; python train.py \
+export CUDA_VISIBLE_DEVICES=1; python train.py \
 experiments/seg_detector/rctw17_resnet50_deform_thre.yaml \
---num_gpus 1 --batch_size 64 \
+--num_gpus 1 --batch_size 8 \
 --resume outputs/workspace/DB/SegDetectorModel-seg_detector/deformable_resnet50/L1BalanceCELoss_1215/model/final \
---epochs 150 \
---lr 0.0007
+--epochs 50 \
+--lr 0.0001
 #--resume outputs/workspace/DB/SegDetectorModel-seg_detector/deformable_resnet50/L1BalanceCELoss_1215/model/final \
 
