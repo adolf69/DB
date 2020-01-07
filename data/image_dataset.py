@@ -120,19 +120,19 @@ class ImageDataset(data.Dataset, Configurable):
         # print('+' * 100)
         # print(target)
 
-        import random
-        random_num = random.random()
-        if random_num < 0.25:
-            img = cv2.resize(img, None, fx=0.125, fy=0.125, interpolation=cv2.INTER_CUBIC)
-            target = self.target_transform(target, scale=8)
-        elif random_num < 0.5:
-            img = cv2.resize(img, None, fx=0.25, fy=0.25, interpolation=cv2.INTER_CUBIC)
-            target = self.target_transform(target, scale=4)
-        elif random_num < 0.75:
-            img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)
-            target = self.target_transform(target, scale=2)
-        else:
-            img = img
+        # import random
+        # random_num = random.random()
+        # if random_num < 0.25:
+        #     img = cv2.resize(img, None, fx=0.125, fy=0.125, interpolation=cv2.INTER_CUBIC)
+        #     target = self.target_transform(target, scale=8)
+        # elif random_num < 0.5:
+        #     img = cv2.resize(img, None, fx=0.25, fy=0.25, interpolation=cv2.INTER_CUBIC)
+        #     target = self.target_transform(target, scale=4)
+        # elif random_num < 0.75:
+        #     img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)
+        #     target = self.target_transform(target, scale=2)
+        # else:
+        #     img = img
 
         data['image'] = img
         # print('=' * 100)
