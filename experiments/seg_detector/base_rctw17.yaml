@@ -8,7 +8,7 @@ define:
     data_dir:
         - '/home/bizer/ocr_data/documentation'
     data_list:
-        - '/home/bizer/ocr_data/documentatio/train_list.txt'
+        - '/home/bizer/ocr_data/documentation/train_list.txt'
     processes:
         - class: AugmentDetectionData
           augmenter_args:
