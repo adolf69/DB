@@ -6,7 +6,7 @@ define:
   - name: train_data
     class: ImageDataset
     data_dir:
-        - '/home/bizer/ocr_data/documentation'
+        - '/home/bizer/ocr_data/documentation/'
     data_list:
         - '/home/bizer/ocr_data/documentation/train_list.txt'
     processes:
@@ -30,9 +30,9 @@ define:
   - name: validate_data
     class: ImageDataset
     data_dir:
-        - '/home/shizai/datadisk2/ocr_data/test/'
+        - '/home/bizer/ocr_data/documentation/'
     data_list:
-        - '/home/shizai/datadisk2/ocr_data/test/test_list.txt'
+        - '/home/bizer/ocr_data/documentation/train_list.txt'
     processes:
         - class: AugmentDetectionData
           augmenter_args:
