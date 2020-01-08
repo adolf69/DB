@@ -217,11 +217,19 @@ class Demo:
 
             # print('+'*50)
             # print(batch['image'].shape)
-            pred = model.forward(batch, training=False)
-            # print('1'*50)
-            # print(pred)
-            # print(pred.shape())
-            output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
+            import time
+            for i in range(100):
+                s1 = time.time()
+                pred = model.forward(batch, training=False)
+                # print('1'*50)
+                # print(pred)
+                # print(pred.shape())
+                e2 = time.time()
+                print('cost1:', e2 - s1)
+                output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
+                e1 = time.time()
+
+                print('cost2:', e1 - e2)
 
             # print(output)
             # print('='*50)

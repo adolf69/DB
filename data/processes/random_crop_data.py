@@ -23,6 +23,8 @@ class RandomCropData(DataProcess):
         all_care_polys = [line['points']
                           for line in data['polys'] if not line['ignore']]
         crop_x, crop_y, crop_w, crop_h = self.crop_area(img, all_care_polys)
+        # print('=======')
+        # print(crop_x, crop_y, crop_w, crop_h)
         scale_w = self.size[0] / crop_w
         scale_h = self.size[1] / crop_h
         scale = min(scale_w, scale_h)
@@ -46,6 +48,13 @@ class RandomCropData(DataProcess):
             data['image'] = ori_img
         else:
             data['image'] = img
+
+        # import random
+
+        # print(data['image'].shape[:2])
+        # for one_line in data['polys']:
+        #     cv2.polylines(data['image'], [np.array(one_line['points']).astype(np.int32)], True, (0, 0, 255), 1)
+        # cv2.imwrite('images/test_{}.png'.format(random.randint(0, 199)), data['image'])
         data['lines'] = ori_lines
         data['scale_w'] = scale
         data['scale_h'] = scale
@@ -72,7 +81,7 @@ class RandomCropData(DataProcess):
         regions = []
         min_axis = 0
         for i in range(1, axis.shape[0]):
-            if axis[i] != axis[i-1] + 1:
+            if axis[i] != axis[i - 1] + 1:
                 region = axis[min_axis:i]
                 min_axis = i
                 regions.append(region)
@@ -129,7 +138,8 @@ class RandomCropData(DataProcess):
             else:
                 ymin, ymax = self.random_select(h_axis, h)
 
-            if xmax - xmin < self.min_crop_side_ratio * w or ymax - ymin < self.min_crop_side_ratio * h:
+            if xmax - xmin < max(self.min_crop_side_ratio * w, self.size[0]) or ymax - ymin < max(
+                    self.min_crop_side_ratio * h, self.size[1]):
                 # area too small
                 continue
             num_poly_in_rect = 0

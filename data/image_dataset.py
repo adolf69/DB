@@ -137,7 +137,9 @@ class ImageDataset(data.Dataset, Configurable):
         data['image'] = img
         # print('=' * 100)
         # print(target)
+
         data['lines'] = target
+
         if self.processes is not None:
             for data_process in self.processes:
                 data = data_process(data)
