@@ -132,12 +132,15 @@ class SegDetectorRepresenter(Configurable):
         boxes = np.zeros((num_contours, 4, 2), dtype=np.int16)
         scores = np.zeros((num_contours,), dtype=np.float32)
 
+        temp = (bitmap*255).astype(np.uint8)
+        cv2.drawContours(temp, contours, -1, 122, 1)
         for index in range(num_contours):
             contour = contours[index]
             points, sside = self.get_mini_boxes(contour)
             if sside < self.min_size:
                 continue
             points = np.array(points)
+            cv2.polylines(temp, [points.astype(np.int32)], True, 255, 1)
             score = self.box_score_fast(pred, points.reshape(-1, 2))
             if self.box_thresh > score:
                 continue
@@ -157,6 +160,7 @@ class SegDetectorRepresenter(Configurable):
                 np.round(box[:, 1] / height * dest_height), 0, dest_height)
             boxes[index, :, :] = box.astype(np.int16)
             scores[index] = score
+        cv2.imwrite('test.jpg', temp)
         return boxes, scores
 
     def unclip(self, box, unclip_ratio=1.5):
