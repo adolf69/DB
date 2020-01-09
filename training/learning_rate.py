@@ -46,9 +46,9 @@ class PriorityLearningRate(Configurable):
 
 
 class MultiStepLR(Configurable):
-    lr = State(default=0.00007)
+    lr = State(default=0.000007)
     milestones = State(default=[10, 20])  # milestones must be sorted
-    gamma = State(default=0.5)
+    gamma = State(default=0.2)
 
     def __init__(self, cmd={}, **kwargs):
         self.load_all(**kwargs)

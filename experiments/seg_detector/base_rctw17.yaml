@@ -18,7 +18,7 @@ define:
         only_resize: False
         keep_ratio: True
       - class: RandomCropData
-        size: [640, 640]
+        size: [960, 960]
         max_tries: 20
       - class: MakeICDARData
       - class: MakeSegDetectionData
