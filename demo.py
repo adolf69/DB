@@ -46,6 +46,7 @@ def main():
                         help='output polygons if true')
     parser.add_argument('--eager', '--eager_show', action='store_true', dest='eager_show',
                         help='Show iamges eagerly')
+    parser.add_argument('--IsResize', action='store_true', help='is resize')
 
     args = parser.parse_args()
     args = vars(args)
@@ -120,7 +121,7 @@ class Demo:
     def load_image(self, image_path):
         img = cv2.imread(image_path, cv2.IMREAD_COLOR).astype('float32')
         original_shape = img.shape[:2]
-        img = self.resize_image(img, is_resize=True)
+        img = self.resize_image(img, is_resize=self.args['IsResize'])
         img -= self.RGB_MEAN
         img /= 255.
         img = torch.from_numpy(img).permute(2, 0, 1).float().unsqueeze(0)
@@ -217,19 +218,19 @@ class Demo:
 
             # print('+'*50)
             # print(batch['image'].shape)
-            import time
+            # import time
             for i in range(100):
-                s1 = time.time()
+                # s1 = time.time()
                 pred = model.forward(batch, training=False)
                 # print('1'*50)
                 # print(pred)
                 # print(pred.shape())
-                e2 = time.time()
-                print('cost1:', e2 - s1)
+                # e2 = time.time()
+                # print('cost1:', e2 - s1)
                 output = self.structure.representer.represent(batch, pred, is_output_polygon=self.args['polygon'])
-                e1 = time.time()
+                # e1 = time.time()
 
-                print('cost2:', e1 - e2)
+                # print('cost2:', e1 - e2)
 
             # print(output)
             # print('='*50)

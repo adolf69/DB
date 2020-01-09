@@ -13,13 +13,13 @@ define:
       - class: AugmentDetectionData
         augmenter_args:
           - ['Fliplr', 0.5]
-#          - {'cls': 'Affine', 'rotate': [-10, 10]}
+          - {'cls': 'Affine', 'rotate': [-10, 10]}
           - ['Resize', [0.5, 3.0]]
         only_resize: False
         keep_ratio: True
       - class: RandomCropData
         size: [960, 960]
-        max_tries: 10
+        max_tries: 20
       - class: MakeICDARData
       - class: MakeSegDetectionData
       - class: MakeBorderMap

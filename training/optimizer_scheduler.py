@@ -22,9 +22,9 @@ class OptimizerScheduler(Configurable):
         return optimizer
 
 
-optimizer = getattr(torch.optim, "Adam")
-print(optimizer)
-# optimizer2 = torch.optim.Adam()
-# print(optimizer2)
-optimizer3 = getattr(torch.optim, "SGD")
-print(optimizer3)
+# optimizer = getattr(torch.optim, "Adam")
+# print(optimizer)
+# # optimizer2 = torch.optim.Adam()
+# # print(optimizer2)
+# optimizer3 = getattr(torch.optim, "SGD")
+# print(optimizer3)

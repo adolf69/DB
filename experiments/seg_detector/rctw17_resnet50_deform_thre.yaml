@@ -49,9 +49,9 @@ define:
                 # momentum: 0.9
                 weight_decay: 0.0001
             learning_rate:  
-                class: MultiStepLR
-                epochs: 1200 # 1200
-        epochs: 1200 # 1200
+                class: DecayLearningRate # MultiStepLR
+                epochs: 30 # 1200
+        epochs: 30 # 1200
 
     validation: &validate
         class: ValidationSettings
@@ -71,6 +71,6 @@ define:
         class: Logger
         verbose: true
         level: info
-        log_interval: 150
+        log_interval: 50
 
     evaluation: *validate

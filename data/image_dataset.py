@@ -139,7 +139,6 @@ class ImageDataset(data.Dataset, Configurable):
         # print(target)
 
         data['lines'] = target
-
         if self.processes is not None:
             for data_process in self.processes:
                 data = data_process(data)

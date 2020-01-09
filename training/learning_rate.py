@@ -47,7 +47,7 @@ class PriorityLearningRate(Configurable):
 
 class MultiStepLR(Configurable):
     lr = State(default=0.007)
-    milestones = State(default=[7])  # milestones must be sorted
+    milestones = State(default=[5, 10, 15, 20, 25])  # milestones must be sorted
     gamma = State(default=0.5)
 
     def __init__(self, cmd={}, **kwargs):
@@ -56,6 +56,10 @@ class MultiStepLR(Configurable):
 
     def get_learning_rate(self, epoch, step):
         return self.lr * self.gamma ** bisect_right(self.milestones, epoch)
+
+
+class ReduceLROnPlateau(Configurable):
+    pass
 
 
 class WarmupLR(Configurable):
@@ -87,9 +91,9 @@ class PiecewiseConstantLearningRate(Configurable):
 
 
 class DecayLearningRate(Configurable):
-    lr = State(default=0.007)
-    epochs = State(default=1200)
-    factor = State(default=0.9)
+    lr = State(default=7e-5)
+    epochs = State(default=20)
+    factor = State(default=0.7)
 
     def __init__(self, **kwargs):
         self.load_all(**kwargs)
