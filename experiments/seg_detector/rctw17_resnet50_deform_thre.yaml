@@ -45,13 +45,13 @@ define:
             class: OptimizerScheduler
             optimizer: "Adam"  # "SGD"
             optimizer_args:
-                lr: 0.007
+                lr: 0.00007
                 # momentum: 0.9
                 weight_decay: 0.0001
             learning_rate:  
-                class: DecayLearningRate # MultiStepLR
-                epochs: 200 # 1200
-        epochs: 200 # 1200
+                class: MultiStepLR # DecayLearningRate
+                epochs: 30 # 1200
+        epochs: 30 # 1200
 
     validation: &validate
         class: ValidationSettings
