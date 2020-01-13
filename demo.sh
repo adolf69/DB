@@ -7,4 +7,4 @@ experiments/seg_detector/rctw17_resnet50_deform_thre.yaml \
 --box_thresh 0.1 \
 --thresh 0.5 \
 --IsResize \
---image_short_side 2400
+--image_short_side 1600
