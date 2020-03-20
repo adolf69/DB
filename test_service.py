@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 def get_result(encodestr):
     payload = {"image": encodestr, "type": "image"}
-    r = requests.post("http://192.168.1.254:2019/water_meter_service/", json=payload)
+    r = requests.post("http://192.168.1.135:12020/gaoda_service/", json=payload)
     # print(r.text)
     res = json.loads(r.text)
     # print(res)
@@ -56,15 +56,14 @@ if __name__ == '__main__':
     import time
 
     s1 = time.time()
-# while True:
-    for i in range(1, 7):
-        file_path = "/datadisk4/xinyi/water_meter/whole_images/whole{}.jpg".format(i)
-        res = one_image(file_path)['result']['0']
-        print(res)
-        img = cv2.imread(file_path)
-        h, w = img.shape[:2]
-        print(h, w)
-        for one_box in res:
-            box = one_box['text_line']
-            draw_img(img, box)
-        cv2.imwrite('/datadisk4/xinyi/water_meter/whole_images/test_whole{}.jpg'.format(i), img)
+
+    file_path = "/home/shizai/data3/adolf/ocr_hup/object_detection/data/gaoda/12_08/12_08_img/IMG_20191119_140311.JPEG"
+    res = one_image(file_path)['result']['0']
+    print(res)
+    # img = cv2.imread(file_path)
+    # h, w = img.shape[:2]
+    # print(h, w)
+    # for one_box in res:
+    #     box = one_box['text_line']
+    #     draw_img(img, box)
+    # cv2.imwrite('/datadisk4/xinyi/water_meter/whole_images/test_whole{}.jpg'.format(i), img)

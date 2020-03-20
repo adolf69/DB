@@ -9,11 +9,11 @@ import numpy as np
 from concern.config import Config, Configurable
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "4"
+os.environ['CUDA_VISIBLE_DEVICES'] = "5"
 
 params = {
     'exp': 'experiments/seg_detector/rctw17_resnet50_deform_thre.yaml',
-    'resume': '/home/shizai/adolf/ai+rpa/ocr/ocr_use/DB/outputs/workspace/DB/SegDetectorModel-seg_detector/deformable_resnet50/L1BalanceCELoss_water/model/final',
+    'resume': '/home/shizai/data3/adolf/ocr_hup/DB/output_aws/outputs/workspace/DB/SegDetectorModel-seg_detector/deformable_resnet50/L1BalanceCELoss_rctw200_x30/model/final',
     'image_short_side': 512,
     'thresh': 0.1,
     'box_thresh': 0.1,

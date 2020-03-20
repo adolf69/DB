@@ -6,9 +6,9 @@ define:
   - name: train_data
     class: ImageDataset
     data_dir:
-      - '/home/shizai/datadisk2/ocr_data/train/rctw/'
+      - '/home/shizai/data2/ocr_data/gaoda/gao_tag'
     data_list:
-      - '/home/shizai/datadisk2/ocr_data/train/rctw/train_list.txt'
+      - '/home/shizai/data2/ocr_data/gaoda/gao_tag/train_list.txt'
     processes:
       - class: AugmentDetectionData
         augmenter_args:
@@ -30,9 +30,9 @@ define:
   - name: validate_data
     class: ImageDataset
     data_dir:
-      - '/home/shizai/datadisk2/ocr_data/train/rctw'
+      - '/home/shizai/data2/ocr_data/gaoda/gao_tag'
     data_list:
-      - '/home/shizai/datadisk2/ocr_data/train/rctw/train_list.txt'
+      - '/home/shizai/data2/ocr_data/gaoda/gao_tag/train_list.txt'
     processes:
       - class: AugmentDetectionData
         augmenter_args:

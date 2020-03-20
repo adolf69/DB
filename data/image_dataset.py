@@ -39,7 +39,7 @@ class ImageDataset(data.Dataset, Configurable):
                 image_list = fid.readlines()
             if self.is_training:
                 image_path = [self.data_dir[i] + '/img/' + timg.strip() for timg in image_list]
-                gt_path = [self.data_dir[i] + '/gt/' + timg.strip().replace(".png", "").replace(".jpg", "") + '.txt' for
+                gt_path = [self.data_dir[i] + '/gt/' + timg.strip().replace(".png", "").replace(".jpg", "").replace(".JPEG", "") + '.txt' for
                            timg in image_list]
                 # print(image_path[:10])
                 # print(gt_path[:10])
@@ -52,7 +52,7 @@ class ImageDataset(data.Dataset, Configurable):
                     # gt_path = [self.data_dir[i] + '/test_gts/' + 'gt_' + timg.strip().split('.')[0] + '.txt' for timg in
                     #            image_list]
                     gt_path = [
-                        self.data_dir[i] + '/test_gts/' + timg.strip().replace(".png", "").replace(".jpg", "") + '.txt'
+                        self.data_dir[i] + '/test_gts/' + timg.strip().replace(".png", "").replace(".jpg", "").replace(".JPEG","") + '.txt'
                         for timg in
                         image_list]
             self.image_paths += image_path

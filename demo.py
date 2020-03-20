@@ -202,10 +202,14 @@ class Demo:
         batch['image'] = img
 
         with torch.no_grad():
+            print(batch['image'])
             pred = model.forward(batch, training=False)
+            print('pred', pred)
 
             output = self.structure.representer.represent(batch, pred,
                                                           is_output_polygon=self.args['polygon'])
+
+            print('output', output)
             if not os.path.isdir(self.args['result_dir']):
                 os.mkdir(self.args['result_dir'])
             self.format_output(batch, output)
